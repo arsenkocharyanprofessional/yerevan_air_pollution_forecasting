@@ -98,7 +98,8 @@ def optimize_SARIMAX(endog: Union[pd.Series, list], exog: Union[pd.Series, list]
 
 def recursive_forecast(endog: pd.Series, exog: Union[pd.DataFrame, None], train_len: int, horizon: int,
                        window: int, method: str, order=(1, 0, 1), seasonal_order=(0, 0, 0, 0),
-                       refit_every: int = 7, steps_ahead: int = 1, exog_last: pd.DataFrame = None) -> list:
+                       refit_every: int = 7, steps_ahead: int = 1, exog_last: pd.DataFrame = None,
+                       trend: str = "n") -> list:
     """Rolling origin forecast with an expanding training window.
 
     endog[:i] is everything known at the forecast origin; row i of `exog` holds the
@@ -126,7 +127,7 @@ def recursive_forecast(endog: pd.Series, exog: Union[pd.DataFrame, None], train_
             ex_train = None if exog is None else exog[:i]
             if n % refit_every == 0:
                 model = SARIMAX(endog[:i], ex_train, order=order, seasonal_order=seasonal_order,
-                                simple_differencing=False)
+                                trend=trend, simple_differencing=False)
                 res = model.fit(disp=False, start_params=params, maxiter=200)
                 params = res.params
             else:

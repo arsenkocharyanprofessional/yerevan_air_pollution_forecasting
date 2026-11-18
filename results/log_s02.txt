@@ -1,0 +1,64 @@
+AIC grid, best orders:
+       (p,q,P,Q)         AIC
+0  (1, 3, 0, 0)  353.181731
+1  (1, 3, 1, 0)  355.134798
+2  (1, 3, 0, 1)  355.735556
+3  (1, 3, 1, 1)  359.516745
+4  (1, 2, 0, 0)  364.886163
+  trend  p  q   val_RMSE
+0     c  1  0  13.615533
+1     c  1  1  14.164632
+2     c  0  2  14.369665
+3     c  2  0  14.844791
+4     c  0  1  15.237733
+5     n  1  0  15.883015 
+persistence on validation winter: 13.16
+chosen order (1, 0, 0) trend c
+saved fig07_sarimax_diagnostics.png
+      lb_stat  lb_pvalue
+1    0.922829   0.336733
+2   16.929369   0.000211
+3   18.112997   0.000417
+4   18.625863   0.000931
+5   23.438359   0.000278
+6   23.736379   0.000584
+7   23.814516   0.001228
+8   24.216701   0.002108
+9   24.231484   0.003950
+10  24.618664   0.006117
+ETS AIC {'ETS(A,N,N)': np.float64(485.7497426431727), 'ETS(A,Ad,N)': np.float64(491.4209043902597), 'ETS(A,N,A) weekly': np.float64(496.1008227200571)} -> ETS(A,N,N)
+            winter                                 model    n    RMSE     MAE     MAPE  WHO_acc  skill_vs_persistence_%  DM_stat   DM_p
+0          2024/25                           Persistence  118  11.175   7.969   50.616    0.856                   0.000      NaN    NaN
+1          2024/25                        Seasonal naive  118  24.787  20.101  122.618    0.576                -121.803    6.728  0.000
+2          2024/25                                   ETS  118  11.272   8.085   51.511    0.847                  -0.866    0.734  0.464
+3          2024/25                      SARIMA + Fourier  118  12.117   8.912   46.299    0.856                  -8.431    0.858  0.393
+4          2024/25               SARIMAX, actual weather  118  10.708   7.897   32.977    0.881                   4.176   -0.334  0.739
+5          2024/25               SARIMAX, ECMWF forecast  118  10.578   8.048   45.084    0.856                   5.345   -0.591  0.556
+6          2024/25                 SARIMAX, GFS forecast  118   9.979   7.375   36.412    0.864                  10.706   -0.949  0.344
+7          2024/25  SARIMAX trained on actual, fed ECMWF  118  13.441  10.175   39.763    0.847                 -20.273    1.542  0.126
+8          2024/25   SARIMAX, ECMWF forecast, 2 day lead  117  14.123  11.088   65.802    0.786                  13.791   -1.259  0.211
+9          2024/25               Persistence, 2 day lead  117  16.383  11.914   81.165    0.744                   0.000      NaN    NaN
+10         2025/26                           Persistence  120  12.593   8.885   46.630    0.833                   0.000      NaN    NaN
+11         2025/26                        Seasonal naive  120  27.678  20.932  138.246    0.633                -119.789    5.154  0.000
+12         2025/26                                   ETS  120  12.936   9.254   48.134    0.808                  -2.723    2.181  0.031
+13         2025/26                      SARIMA + Fourier  120  13.237   9.699   45.678    0.842                  -5.114    0.523  0.602
+14         2025/26               SARIMAX, actual weather  120  11.356   8.614   36.808    0.858                   9.819   -1.101  0.273
+15         2025/26               SARIMAX, ECMWF forecast  120  11.882   8.925   45.699    0.842                   5.646   -0.664  0.508
+16         2025/26                 SARIMAX, GFS forecast  120  12.194   9.066   42.887    0.858                   3.169   -0.335  0.739
+17         2025/26  SARIMAX trained on actual, fed ECMWF  120  14.859  11.328   44.990    0.808                 -17.995    1.547  0.125
+18         2025/26   SARIMAX, ECMWF forecast, 2 day lead  120  15.900  12.306   66.982    0.775                  17.137   -2.351  0.020
+19         2025/26               Persistence, 2 day lead  120  19.188  14.364   75.538    0.733                   0.000      NaN    NaN
+20  2026/27 (live)                           Persistence   16   5.386   4.289   58.449    0.875                   0.000      NaN    NaN
+21  2026/27 (live)                        Seasonal naive   16   9.303   7.533  102.306    0.562                 -72.711    1.788  0.094
+22  2026/27 (live)                                   ETS   16   5.507   4.515   60.488    0.875                  -2.245    1.162  0.263
+23  2026/27 (live)                      SARIMA + Fourier   16   4.923   4.104   63.384    0.938                   8.597   -0.882  0.392
+24  2026/27 (live)               SARIMAX, actual weather   16   4.266   3.410   48.946    0.875                  20.807   -1.779  0.095
+25  2026/27 (live)               SARIMAX, ECMWF forecast   16   4.946   3.738   58.344    0.812                   8.181   -1.346  0.198
+26  2026/27 (live)                 SARIMAX, GFS forecast   16   4.136   3.096   48.877    0.875                  23.219   -2.117  0.051
+27  2026/27 (live)  SARIMAX trained on actual, fed ECMWF   16   4.553   3.962   53.060    0.812                  15.474   -0.980  0.343
+28  2026/27 (live)   SARIMAX, ECMWF forecast, 2 day lead   16   6.434   5.193   86.231    0.688                  13.360   -1.404  0.181
+29  2026/27 (live)               Persistence, 2 day lead   16   7.426   6.285   87.295    0.750                   0.000      NaN    NaN
+saved fig08_rmse_by_model.png
+saved fig09_actual_vs_pred_2024_25.png
+saved fig09_actual_vs_pred_2025_26.png
+saved fig10_predictability_sources.png

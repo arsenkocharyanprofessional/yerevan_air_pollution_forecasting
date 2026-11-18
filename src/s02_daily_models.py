@@ -16,7 +16,7 @@ from statsmodels.tsa.statespace.sarimax import SARIMAX
 from config import (PROCESSED, RESULTS, TEST_WINTERS, FIRST_TEST_DAY, WEATHER_VARS, FOURIER_K, REFIT_EVERY,
                     WHO_DAILY_LIMIT)
 from plot_style import apply_style, save, INK, RUST, BLUE, GREY, LIGHT, MODEL_COLORS
-from ts_utils import (optimize_SARIMAX, recursive_forecast, fourier_terms, all_metrics, diebold_mariano)
+from ts_utils import (optimize_SARIMAX, recursive_forecast, fourier_terms, all_metrics, diebold_mariano, rmse)
 
 apply_style()
 daily = pd.read_csv(PROCESSED / "daily.csv", index_col="date", parse_dates=True)
@@ -39,26 +39,52 @@ def design(source=None) -> pd.DataFrame:
     return fourier if source is None else pd.concat([fourier, weather_block(source)], axis=1)
 
 
-# ---------------------------------------------------------------- 1. order selection (class grid search)
+# ---------------------------------------------------------------- 1. order selection
+# (a) class method: AIC grid over (p, q, P, Q) with weekly seasonal terms, on the tuning sample
 p = q = range(0, 4)
 P = Q = range(0, 2)
 order_list = list(product(p, q, P, Q))
 grid = optimize_SARIMAX(y[tune], design("obs")[tune], order_list, d=0, D=0, s=7)
 grid.to_csv(RESULTS / "sarimax_aic_grid.csv", index=False)
-print(grid.head(8))
-bp, bq, bP, bQ = grid.iloc[0, 0]
-# parsimony rule: among models within 2 AIC points of the best, take the one with fewest terms
-close = grid[grid["AIC"] <= grid["AIC"].iloc[0] + 2].copy()
-close["k"] = close["(p,q,P,Q)"].apply(sum)
-bp, bq, bP, bQ = close.sort_values(["k", "AIC"]).iloc[0, 0]
-ORDER, SEASONAL = (bp, 0, bq), (bP, 0, bQ, 7 if (bP or bQ) else 0)
-print("chosen order", ORDER, SEASONAL)
+print("AIC grid, best orders:\n", grid.head(5))
+aic_best = grid.iloc[0, 0]
+aic_fit = SARIMAX(y[tune], design("obs")[tune], order=(aic_best[0], 0, aic_best[1]), trend="c").fit(disp=False)
+aic_info = {"aic_best_order": [int(v) for v in aic_best],
+            "aic_best_min_ar_root": float(np.abs(aic_fit.arroots).min()) if aic_best[0] else None,
+            "aic_best_min_ma_root": float(np.abs(aic_fit.maroots).min()) if aic_best[1] else None}
 
-best = SARIMAX(y[tune], design("obs")[tune], order=ORDER, seasonal_order=SEASONAL).fit(disp=False)
+# (b) decision rule: AIC rewards fitting the whole year, which is mostly calm summer days. What matters
+# here is one day ahead accuracy in winter, so the order is chosen by rolling origin validation on
+# the only winter inside the tuning sample (Dec 2023 to Feb 2024), with and without a constant.
+v0, v1 = daily.index.get_loc(pd.Timestamp("2023-12-01")), daily.index.get_loc(pd.Timestamp("2024-03-01"))
+val_actual = daily["pm25"].iloc[v0:v1]
+ok_val = val_actual.notna().values
+val_rows = []
+for trend in ["n", "c"]:
+    for vp, vq in product(range(0, 3), range(0, 3)):
+        if vp == 0 and vq == 0:
+            continue
+        try:
+            vpred = np.exp(np.array(recursive_forecast(y, design("obs"), v0, v1 - v0, 1, "SARIMAX", order=(vp, 0, vq),
+                                                       refit_every=14, trend=trend), dtype=float))
+            val_rows.append({"trend": trend, "p": vp, "q": vq, "val_RMSE": rmse(val_actual[ok_val], vpred[ok_val])})
+        except Exception:
+            continue
+val = pd.DataFrame(val_rows).sort_values("val_RMSE").reset_index(drop=True)
+val_persistence = rmse(val_actual[ok_val], np.exp(y.ffill().shift(1)).iloc[v0:v1][ok_val])
+val.to_csv(RESULTS / "order_validation_winter2023.csv", index=False)
+print(val.head(6), "\npersistence on validation winter:", round(val_persistence, 2))
+TREND = val.loc[0, "trend"]
+ORDER, SEASONAL = (int(val.loc[0, "p"]), 0, int(val.loc[0, "q"])), (0, 0, 0, 0)
+print("chosen order", ORDER, "trend", TREND)
+
+best = SARIMAX(y[tune], design("obs")[tune], order=ORDER, seasonal_order=SEASONAL, trend=TREND).fit(disp=False)
 with open(RESULTS / "sarimax_summary.txt", "w") as f:
     f.write(str(best.summary()))
 fig = best.plot_diagnostics(figsize=(10, 7))
 save(fig, "fig07_sarimax_diagnostics.png")
+with open(RESULTS / "sarimax_summary.txt", "w") as f:
+    f.write(str(best.summary()))
 lb = acorr_ljungbox(best.resid.dropna(), np.arange(1, 11, 1))
 lb.to_csv(RESULTS / "ljung_box.csv")
 print(lb)
@@ -97,7 +123,7 @@ def run_sarimax(source, start=None, **kw):
     X = X.loc[first:].interpolate(limit=3)
     yy = y.loc[first:]
     out = recursive_forecast(yy, X, TRAIN_LEN - daily.index.get_loc(first), HORIZON, WINDOW, "SARIMAX",
-                             order=ORDER, seasonal_order=SEASONAL, refit_every=REFIT_EVERY, **kw)
+                             order=ORDER, seasonal_order=SEASONAL, refit_every=REFIT_EVERY, trend=TREND, **kw)
     return np.exp(np.array(out, dtype=float))
 
 
@@ -111,7 +137,7 @@ X_obs, X_fc = design("obs"), design("ecmwf1").interpolate(limit=3)
 plug, res, params = [], None, None
 for n, i in enumerate(range(TRAIN_LEN, TRAIN_LEN + HORIZON)):
     if n % REFIT_EVERY == 0:
-        res = SARIMAX(y[:i], X_obs[:i], order=ORDER, seasonal_order=SEASONAL).fit(disp=False, start_params=params)
+        res = SARIMAX(y[:i], X_obs[:i], order=ORDER, seasonal_order=SEASONAL, trend=TREND).fit(disp=False, start_params=params)
         params = res.params
     else:
         res = res.append(y[i - 1:i], exog=X_obs[i - 1:i])
@@ -123,7 +149,7 @@ first = design("ecmwf1").dropna().index.min()
 X1 = design("ecmwf1").loc[first:].interpolate(limit=3)
 X2 = design("ecmwf2").loc[first:].interpolate(limit=3)
 lead2 = recursive_forecast(y.loc[first:], X1, TRAIN_LEN - daily.index.get_loc(first), HORIZON, WINDOW, "SARIMAX",
-                           order=ORDER, seasonal_order=SEASONAL, refit_every=REFIT_EVERY, steps_ahead=2, exog_last=X2)
+                           order=ORDER, seasonal_order=SEASONAL, refit_every=REFIT_EVERY, steps_ahead=2, exog_last=X2, trend=TREND)
 pred["SARIMAX, ECMWF forecast, 2 day lead"] = pd.Series(np.exp(np.array(lead2, dtype=float)), index=test_index).shift(1)
 pred["Persistence, 2 day lead"] = pred["Persistence"].shift(1)
 pred.to_csv(RESULTS / "daily_predictions.csv")
@@ -146,7 +172,9 @@ metrics = pd.DataFrame(rows)
 metrics.to_csv(RESULTS / "daily_metrics.csv", index=False)
 print(metrics.round(3).to_string())
 with open(RESULTS / "daily_setup.json", "w") as f:
-    json.dump({"order": [int(v) for v in ORDER], "seasonal_order": [int(v) for v in SEASONAL], "ets": ETS_NAME,
+    json.dump({"order": [int(v) for v in ORDER], "seasonal_order": [int(v) for v in SEASONAL], "trend": TREND,
+               "validation_persistence_rmse": val_persistence, "validation_best_rmse": float(val.loc[0, "val_RMSE"]),
+               **aic_info, "ets": ETS_NAME,
                "ets_aic": ets_aic, "train_len_first_origin": TRAIN_LEN, "horizon_days": HORIZON,
                "params_actual_weather": {k: float(v) for k, v in best.params.items()},
                "pvalues_actual_weather": {k: float(v) for k, v in best.pvalues.items()}}, f, indent=2)

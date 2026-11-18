@@ -71,7 +71,7 @@ print(metrics.round(2).to_string())
 
 colors = {"Same hour yesterday": GREY, "Same hour last week": "#b8c0cc", "Daily SARIMAX x daily shape": BLUE,
           "Gradient boosting": TEAL}
-fig, axes = plt.subplots(1, 2, figsize=(12, 3.8), gridspec_kw={"width_ratios": [1, 1.5]})
+fig, axes = plt.subplots(1, 2, figsize=(12, 3.8), gridspec_kw={"width_ratios": [1, 1.5], "wspace": 0.25})
 piv = metrics[metrics["winter"].isin(["2024/25", "2025/26"])].pivot(index="model", columns="winter", values="RMSE").loc[models]
 xs = np.arange(len(models))
 for k, winter in enumerate(piv.columns):
@@ -81,14 +81,15 @@ for k, winter in enumerate(piv.columns):
         axes[0].text(x, v + 0.3, f"{v:.1f}", ha="center", fontsize=8)
 axes[0].set_xticks(xs, ["Same hour\nyesterday", "Same hour\nlast week", "Daily model\nx day shape", "Gradient\nboosting"], fontsize=8)
 axes[0].set_ylabel("RMSE (µg/m³)")
-axes[0].set_title("Hourly, 24 h ahead (pale 2024/25, solid 2025/26)")
+axes[0].set_title("Hourly RMSE, 24 h ahead")
+axes[0].text(0.0, 1.0, "pale 2024/25, solid 2025/26", transform=axes[0].transAxes, fontsize=8, color=GREY, va="bottom")
 axes[0].grid(axis="x", visible=False)
 week = df.loc["2026-01-12":"2026-01-18"]
 axes[1].plot(week.index, week["actual"], color=INK, lw=2, label="Actual")
 axes[1].plot(week.index, week["Same hour yesterday"], color=GREY, ls=":", lw=1, label="Same hour yesterday")
 axes[1].plot(week.index, week["Daily SARIMAX x daily shape"], color=BLUE, lw=1.3, label="Daily model x day shape")
 axes[1].plot(week.index, week["Gradient boosting"], color=TEAL, lw=1.3, label="Gradient boosting")
-axes[1].set_title("One week of hourly forecasts, 12 to 18 January 2026")
+axes[1].set_title("One week of hourly forecasts, 12 to 18 Jan 2026")
 axes[1].legend(fontsize=8, ncol=2)
 axes[1].tick_params(axis="x", labelsize=8)
 fig.tight_layout()

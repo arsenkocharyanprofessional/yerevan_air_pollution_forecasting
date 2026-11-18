@@ -62,6 +62,17 @@ def build_daily(city: pd.DataFrame, w: pd.DataFrame) -> pd.DataFrame:
     for model in ("ecmwf", "gfs"):
         for lead in (1, 2):
             blocks[f"{model}{lead}"] = daily_weather(w, f"fc_{model}_", f"_d{lead}")
+    # archived forecast gaps: fall back to the other model's forecast of the same lead time,
+    # the way an operational forecaster would (ECMWF misses 18 to 22 April 2026)
+    for lead in (1, 2):
+        e, g = blocks[f"ecmwf{lead}"], blocks[f"gfs{lead}"]
+        start_e, start_g = e.dropna().index.min(), g.dropna().index.min()
+        gap_e = e.isna().any(axis=1) & (e.index > start_e)
+        gap_g = g.isna().any(axis=1) & (g.index > start_g)
+        blocks[f"ecmwf{lead}"] = e.where(~gap_e, g)
+        blocks[f"gfs{lead}"] = g.where(~gap_g, e)
+        daily[f"ecmwf{lead}_filled_from_gfs"] = gap_e.reindex(daily.index, fill_value=False)
+        daily[f"gfs{lead}_filled_from_ecmwf"] = gap_g.reindex(daily.index, fill_value=False)
     for name, block in blocks.items():
         daily = daily.join(block.add_prefix(f"{name}_"))
     daily.index.name = "date"
@@ -87,6 +98,8 @@ def main():
     print(f"Hourly city series: {len(city):,} hours, {city['pm25'].notna().sum():,} with data "
           f"({city.index.min()} to {city.index.max()})")
     print(f"Daily series: {len(daily):,} days, {valid.sum():,} valid, {(valid & winter).sum():,} valid winter days")
+    for c in [c for c in daily.columns if "filled_from" in c]:
+        print(f"{c}: {int(daily[c].sum())} days")
     print(f"Winter days above WHO 15: {(daily.loc[valid & winter, 'pm25'] > 15).mean():.1%}")
     return city, daily
 

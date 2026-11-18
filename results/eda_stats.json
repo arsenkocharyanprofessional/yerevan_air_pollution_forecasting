@@ -1,0 +1,67 @@
+{
+  "hours_total": 29616,
+  "hours_with_data": 28715,
+  "days_total": 1234,
+  "days_valid": 1190,
+  "winter_days_valid": 362,
+  "winter_share_above_who": 0.6712707182320442,
+  "first_day": "2023-07-02",
+  "last_day": "2026-11-16",
+  "median_winter": 23.095958333333336,
+  "median_non_winter": 5.285020833333333,
+  "longest_gap_days": 14,
+  "median_december": 33.91016666666667,
+  "median_may": 3.662104166666667,
+  "winter_peak_hour": 21,
+  "weekday_medians_winter": [
+    19.038395833333333,
+    20.472977272727277,
+    22.13376041666666,
+    24.7465625,
+    24.268864583333333,
+    25.62865625,
+    25.932
+  ],
+  "weekday_joint_p": 0.21959199182872013,
+  "weekend_effect_pct": 12.437491956998281,
+  "weekend_effect_p": 0.04977208128362689,
+  "seasonal_strength": 0.674483430777777,
+  "trend_strength": 0.008406817333098116,
+  "trend_range_log": [
+    2.0627722250929392,
+    2.204033146018916
+  ],
+  "stationarity": {
+    "log PM2.5": {
+      "ADF_stat": -2.974187476500575,
+      "ADF_p": 0.03737629475795037,
+      "KPSS_stat": 0.1963244709640428,
+      "KPSS_p": 0.1
+    },
+    "log PM2.5 minus Fourier seasonality": {
+      "ADF_stat": -12.536994129552134,
+      "ADF_p": 2.3597310826176555e-23,
+      "KPSS_stat": 0.12573056544151012,
+      "KPSS_p": 0.1
+    },
+    "first difference of log PM2.5": {
+      "ADF_stat": -14.543025735105523,
+      "ADF_p": 5.1092385406967106e-27,
+      "KPSS_stat": 0.10443265617010379,
+      "KPSS_p": 0.1
+    }
+  },
+  "acf_log_lag1": 0.8819659550311826,
+  "acf_log_lag7": 0.6424477735724652,
+  "winter_corr_logpm_obs_wind": -0.5713494858277366,
+  "winter_corr_logpm_obs_blh": -0.6215104298337241,
+  "winter_corr_wind_obs_ecmwf1": 0.4883229226654733,
+  "winter_corr_wind_obs_gfs1": 0.6335190102536137,
+  "winter_corr_logpm_obs_temp": -0.07512614013145348,
+  "winter_corr_logpm_obs_rh": 0.11478289757385811,
+  "winter_corr_logpm_obs_precip": -0.22052860235999905,
+  "winter_corr_logpm_obs_pressure": 0.22636413642904113,
+  "sensors_first_month": 1,
+  "sensors_last_month": 8,
+  "raw_rows": 171506
+}

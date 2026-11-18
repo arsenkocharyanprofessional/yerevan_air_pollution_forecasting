@@ -1,0 +1,223 @@
+saved fig13_episodes.png
+saved fig14_anomalies.png
+saved fig15_lead_time.png
+{
+  "p_stay_above": 0.8666666666666667,
+  "p_stay_below": 0.7372881355932204,
+  "episodes": 35,
+  "episode_median_days": 4.0,
+  "episode_mean_days": 6.942857142857143,
+  "episode_max_days": 40,
+  "share_days_in_long_episodes": 0.7777777777777778,
+  "winter_ar1": 0.7131084916188808,
+  "half_life_days": 2.049993136171768,
+  "clearing_days": 33,
+  "clearing_share": 0.13692946058091288,
+  "wind_on_clearing_days": 1.8125631313131312,
+  "wind_on_other_dirty_days": 0.9862740384615384,
+  "corr_change_wind": -0.46478184603811995,
+  "anomaly_sigma_log": 0.2807004648557017,
+  "anomalies": [
+    {
+      "date": "2024-11-04",
+      "z": -3.37,
+      "actual": 6.7,
+      "expected": 16.9
+    },
+    {
+      "date": "2024-11-17",
+      "z": -4.09,
+      "actual": 8.0,
+      "expected": 24.9
+    },
+    {
+      "date": "2024-11-25",
+      "z": -3.85,
+      "actual": 8.9,
+      "expected": 25.7
+    },
+    {
+      "date": "2024-12-14",
+      "z": -4.49,
+      "actual": 3.2,
+      "expected": 11.1
+    },
+    {
+      "date": "2025-01-18",
+      "z": -3.35,
+      "actual": 11.3,
+      "expected": 28.5
+    },
+    {
+      "date": "2025-04-03",
+      "z": -3.72,
+      "actual": 2.2,
+      "expected": 6.3
+    },
+    {
+      "date": "2025-04-14",
+      "z": 3.94,
+      "actual": 11.6,
+      "expected": 3.8
+    },
+    {
+      "date": "2025-04-15",
+      "z": -3.08,
+      "actual": 4.6,
+      "expected": 10.7
+    },
+    {
+      "date": "2025-10-10",
+      "z": -3.47,
+      "actual": 1.6,
+      "expected": 4.3
+    },
+    {
+      "date": "2025-10-11",
+      "z": 4.58,
+      "actual": 10.6,
+      "expected": 2.9
+    },
+    {
+      "date": "2025-12-10",
+      "z": -3.34,
+      "actual": 21.4,
+      "expected": 53.6
+    },
+    {
+      "date": "2025-12-14",
+      "z": -5.04,
+      "actual": 2.7,
+      "expected": 10.8
+    },
+    {
+      "date": "2025-12-28",
+      "z": -4.83,
+      "actual": 6.4,
+      "expected": 24.4
+    },
+    {
+      "date": "2026-01-02",
+      "z": -3.12,
+      "actual": 7.0,
+      "expected": 16.5
+    },
+    {
+      "date": "2026-01-14",
+      "z": -4.76,
+      "actual": 3.8,
+      "expected": 14.3
+    },
+    {
+      "date": "2026-02-04",
+      "z": -3.42,
+      "actual": 7.7,
+      "expected": 19.8
+    },
+    {
+      "date": "2026-02-18",
+      "z": -3.58,
+      "actual": 6.1,
+      "expected": 16.3
+    },
+    {
+      "date": "2026-03-17",
+      "z": -3.36,
+      "actual": 3.7,
+      "expected": 9.4
+    },
+    {
+      "date": "2026-04-05",
+      "z": -3.23,
+      "actual": 1.5,
+      "expected": 3.6
+    },
+    {
+      "date": "2026-05-05",
+      "z": -4.82,
+      "actual": 1.5,
+      "expected": 5.7
+    },
+    {
+      "date": "2026-05-26",
+      "z": -3.8,
+      "actual": 2.0,
+      "expected": 5.8
+    },
+    {
+      "date": "2026-11-08",
+      "z": -3.42,
+      "actual": 3.6,
+      "expected": 9.2
+    }
+  ],
+  "anomalies_high": 2,
+  "anomalies_low": 20,
+  "new_year_2024_z": [
+    -0.54,
+    -2.46
+  ],
+  "new_year_2025_z": [
+    -1.21,
+    -0.23
+  ],
+  "trend_city": {
+    "raw_change_%": {
+      "2024/25": 31.038042420164125,
+      "2025/26": 41.99014289466989
+    },
+    "adjusted_change_%": {
+      "2024/25": 18.575743735780414,
+      "2025/26": 20.762461928224663
+    },
+    "adjusted_p": {
+      "2024/25": 0.23314932034267588,
+      "2025/26": 0.1702443231605767
+    },
+    "n": 346,
+    "raw_mean_ug": {
+      "2023": 16.975061836520084,
+      "2024": 22.24378873018828,
+      "2025": 24.102914558133445
+    }
+  },
+  "trend_fixed_panel": {
+    "raw_change_%": {
+      "2024/25": 33.03766723572829,
+      "2025/26": 53.072938701978664
+    },
+    "adjusted_change_%": {
+      "2024/25": 20.287634856890158,
+      "2025/26": 29.863398901873683
+    },
+    "adjusted_p": {
+      "2024/25": 0.199262854178338,
+      "2025/26": 0.05719531619033565
+    },
+    "n": 346,
+    "raw_mean_ug": {
+      "2023": 16.95515620116165,
+      "2024": 22.55674428619939,
+      "2025": 25.953755858628906
+    }
+  },
+  "fixed_panel_sensors": [
+    80868,
+    83131,
+    84847
+  ],
+  "lead_rmse": {
+    "2024/25 | Persistence": 11.18,
+    "2024/25 | SARIMAX, ECMWF forecast": 10.58,
+    "2024/25 | SARIMAX, ECMWF forecast, 2 day lead": 14.12,
+    "2024/25 | Persistence, 2 day lead": 16.38,
+    "2025/26 | Persistence": 12.59,
+    "2025/26 | SARIMAX, ECMWF forecast": 11.88,
+    "2025/26 | SARIMAX, ECMWF forecast, 2 day lead": 15.9,
+    "2025/26 | Persistence, 2 day lead": 19.19,
+    "2026/27 (live) | Persistence": 5.39,
+    "2026/27 (live) | SARIMAX, ECMWF forecast": 4.95,
+    "2026/27 (live) | SARIMAX, ECMWF forecast, 2 day lead": 6.43,
+    "2026/27 (live) | Persistence, 2 day lead": 7.43
+  }
+}

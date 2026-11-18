@@ -1,0 +1,14 @@
+            winter                        model     n   RMSE    MAE    MAPE
+0          2024/25          Same hour yesterday  2748  14.13  10.06  119.66
+1          2024/25          Same hour last week  2748  26.99  21.29  202.16
+2          2024/25  Daily SARIMAX x daily shape  2748  13.06   9.63   83.47
+3          2024/25            Gradient boosting  2748  16.55  11.67   83.02
+4          2025/26          Same hour yesterday  2880  16.74  11.63  102.32
+5          2025/26          Same hour last week  2880  30.42  22.58  241.24
+6          2025/26  Daily SARIMAX x daily shape  2880  15.55  11.27   82.13
+7          2025/26            Gradient boosting  2880  15.82  10.86   54.50
+8   2026/27 (live)          Same hour yesterday   384   7.74   5.91  118.05
+9   2026/27 (live)          Same hour last week   384  11.68   8.52  150.11
+10  2026/27 (live)  Daily SARIMAX x daily shape   384   7.16   5.34  115.42
+11  2026/27 (live)            Gradient boosting   384   5.71   4.16   77.90
+saved fig12_hourly.png

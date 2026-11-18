@@ -1,0 +1,16 @@
+log_pm25: ADF Statistic: -7.431, p-value: 0.0000
+wind: ADF Statistic: -6.097, p-value: 0.0000
+temp: ADF Statistic: -7.524, p-value: 0.0000
+wind Granger causes log_pm25? p values by lag: {'1': 6.957857831068301e-09, '2': 1.0223789681971451e-06, '3': 4.347173712574216e-06}
+temp Granger causes log_pm25? p values by lag: {'1': 0.02812394302573326, '2': 0.29875436254396875, '3': 0.2296056077192601}
+log_pm25 Granger causes wind? p values by lag: {'1': 0.10182875813839888, '2': 0.15607846334580816, '3': 0.1753352973304309}
+   p          AIC
+0  2  2865.352241
+1  3  2873.743563
+2  5  2886.561329
+3  4  2890.376789
+4  1  2903.978908
+           winter model    n    RMSE    MAE    MAPE  WHO_acc  skill_vs_persistence_%  DM_stat   DM_p
+0         2024/25   VAR  118  11.863  8.570  42.598    0.864                  -6.158    0.526  0.600
+1         2025/26   VAR  120  12.973  9.475  42.079    0.875                  -3.021    0.298  0.766
+2  2026/27 (live)   VAR   16   4.528  3.822  58.742    0.938                  15.936   -1.235  0.236

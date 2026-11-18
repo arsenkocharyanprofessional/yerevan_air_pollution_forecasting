@@ -1,0 +1,65 @@
+{
+  "best_params": {
+    "Random forest": {
+      "max_depth": 4,
+      "min_samples_leaf": 3,
+      "n_estimators": 300
+    },
+    "Gradient boosting": {
+      "learning_rate": 0.03,
+      "max_depth": 2,
+      "n_estimators": 300,
+      "subsample": 0.8
+    },
+    "SVR": {
+      "svr__C": 3,
+      "svr__epsilon": 0.05,
+      "svr__gamma": 0.01
+    }
+  },
+  "features": [
+    "sin1",
+    "cos1",
+    "sin2",
+    "cos2",
+    "lag1",
+    "lag2",
+    "lag3",
+    "lag7",
+    "roll7",
+    "weekend",
+    "fc_wind",
+    "yday_wind",
+    "fc_temp",
+    "yday_temp",
+    "fc_rh",
+    "yday_rh",
+    "fc_precip",
+    "yday_precip",
+    "fc_pressure",
+    "yday_pressure"
+  ],
+  "n_tuning_rows": 245,
+  "gb_importance": {
+    "weekend": 0.0,
+    "lag7": 0.001,
+    "fc_pressure": 0.0018,
+    "cos2": 0.0032,
+    "yday_precip": 0.0037,
+    "sin1": 0.0037,
+    "sin2": 0.0044,
+    "lag3": 0.0052,
+    "fc_precip": 0.0058,
+    "yday_rh": 0.0062,
+    "fc_rh": 0.0064,
+    "lag2": 0.0065,
+    "fc_wind": 0.0095,
+    "fc_temp": 0.0097,
+    "yday_temp": 0.0274,
+    "roll7": 0.0323,
+    "yday_pressure": 0.0366,
+    "yday_wind": 0.0392,
+    "cos1": 0.1576,
+    "lag1": 0.6398
+  }
+}

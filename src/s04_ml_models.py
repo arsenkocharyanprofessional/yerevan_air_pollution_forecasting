@@ -101,8 +101,14 @@ for ax, winter in zip(axes, ["2024/25", "2025/26"]):
     m = metrics[metrics["winter"] == winter].set_index("model").loc[show]
     ax.barh(range(len(show)), m["skill_vs_persistence_%"], color=[MODEL_COLORS[s] for s in show], height=0.68)
     ax.axvline(0, color=INK, lw=1)
+    span = max(abs(m["skill_vs_persistence_%"]).max(), 5)
     for k, v in enumerate(m["skill_vs_persistence_%"]):
-        ax.text(v + (0.6 if v >= 0 else -0.6), k, f"{v:+.0f}%", va="center", ha="left" if v >= 0 else "right", fontsize=9)
+        if v < -0.5 * span:      # long negative bar: write the label inside it
+            ax.text(v + 0.02 * span, k, f"{v:+.0f}%", va="center", ha="left", fontsize=9, color="white", fontweight="bold")
+        else:
+            ax.text(v + (0.02 * span if v >= 0 else -0.02 * span), k, f"{v:+.0f}%", va="center",
+                    ha="left" if v >= 0 else "right", fontsize=9)
+    ax.set_xlim(min(m["skill_vs_persistence_%"].min(), 0) - 0.12 * span, max(m["skill_vs_persistence_%"].max(), 0) + 0.15 * span)
     ax.set_yticks(range(len(show)), show)
     ax.invert_yaxis()
     ax.set_xlabel("RMSE improvement over persistence (%)")

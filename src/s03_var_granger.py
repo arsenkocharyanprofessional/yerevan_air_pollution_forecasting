@@ -41,7 +41,7 @@ for name in endog:
 g = endog[tune].interpolate().dropna()
 out["granger"] = {}
 for cause, effect in [("wind", "log_pm25"), ("temp", "log_pm25"), ("log_pm25", "wind")]:
-    res = grangercausalitytests(g[[effect, cause]], [1, 2, 3], verbose=False)
+    res = grangercausalitytests(g[[effect, cause]], [1, 2, 3])
     out["granger"][f"{cause} -> {effect}"] = {str(lag): float(r[0]["ssr_ftest"][1]) for lag, r in res.items()}
     print(f"{cause} Granger causes {effect}? p values by lag:", out["granger"][f"{cause} -> {effect}"])
 
