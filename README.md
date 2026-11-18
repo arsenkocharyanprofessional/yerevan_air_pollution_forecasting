@@ -68,9 +68,9 @@ Full numbers are in `results/`, figures in `figures/`.
 ## How to run
 
 ```bash
-python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
+python -m venv .venv && source .venv/bin/activate      # Python 3.11+; Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-python run_all.py                                       # about 20 to 30 minutes
+python run_all.py                                       # about 8 minutes on 2 CPU cores
 ```
 
 Steps (all in `src/`): `data_prep.py` builds the series, `s01_eda.py` exploratory analysis, `s02_daily_models.py`

@@ -1,7 +1,7 @@
 """Run the whole project from the raw downloads to the figures and result tables.
 
 Usage:  python run_all.py
-Takes roughly 20 to 30 minutes on a laptop (most of it is the rolling SARIMAX and VAR refits).
+Takes about 8 minutes on a 2 core machine (most of it is the rolling SARIMAX and VAR refits).
 """
 import subprocess
 import sys

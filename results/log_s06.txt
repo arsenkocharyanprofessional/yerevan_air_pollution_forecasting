@@ -1,4 +1,5 @@
 saved fig13_episodes.png
+saved fig13b_episodes_stacked.png
 saved fig14_anomalies.png
 saved fig15_lead_time.png
 {
