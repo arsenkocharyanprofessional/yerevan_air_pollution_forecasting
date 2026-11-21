@@ -166,7 +166,8 @@ for winter, (a, b) in TEST_WINTERS.items():
         m = all_metrics(sub["actual"].values, sub[model].values, WHO_DAILY_LIMIT)
         m["skill_vs_persistence_%"] = 100 * (1 - m["RMSE"] / all_metrics(sub["actual"].values, sub[base].values)["RMSE"])
         if model != base:
-            m["DM_stat"], m["DM_p"] = diebold_mariano(sub["actual"].values, sub[model].values, sub[base].values)
+            h = 2 if "2 day" in model else 1   # 2 step forecasts have overlapping errors
+            m["DM_stat"], m["DM_p"] = diebold_mariano(sub["actual"].values, sub[model].values, sub[base].values, h=h)
         rows.append({"winter": winter, "model": model, **m})
 metrics = pd.DataFrame(rows)
 metrics.to_csv(RESULTS / "daily_metrics.csv", index=False)

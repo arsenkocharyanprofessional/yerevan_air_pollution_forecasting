@@ -53,7 +53,8 @@ winter days (Nov to Feb), 67% of them above the WHO 24 hour guideline of 15 µg/
 | SVR | 14.16 | 10.32 |
 
 * Weather forecasts give a 3 to 11% gain over persistence one day ahead; no single winter is significant on
-  its own (Diebold Mariano p > 0.3). Two days ahead the gain grows to 14 to 17% (p = 0.02 in 2025/26).
+  its own (Diebold Mariano p > 0.3). Two days ahead the gain grows to 14 to 17% in both winters, but it is
+  only borderline significant (p = 0.08 in 2025/26).
 * Without weather, no model beats persistence. VAR only sees yesterday's weather and does not help, although
   wind strongly Granger causes PM2.5: the value lies in knowing tomorrow's weather.
 * A model trained on actual weather but fed forecasts is 18 to 20% worse than persistence. Train on the
